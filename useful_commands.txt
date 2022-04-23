@@ -1,0 +1,243 @@
+Useful commands:-
+
+lpstat - print cups status information
+dnf groupinfo "..."
+sudo dnf groupinstall "..."
+sudo dnf install ...
+ls -alZ /var/lib/libvirt
+ip a
+sudo firewall-cmd --get-active-zones
+Web console: https://78:9090/ or https://192.168.1.78:9090/
+sudo su
+virsh  net-edit  default
+sudo systemctl  stop | start | disable | enable | restart
+ls -al /etc/resolv.conf
+sudo nmcli con mod enp3s0 ipv4.dns-search 'example.lan'    nmcli con show   nmcli con modify $yourdevice connection.permissions ''0
+     enp1s0 is f34sv (vm) ethernet connection device
+ping host.example.lan
+cat /proc/version
+sudo dnf install --nogpgcheck https://mirrors.rpmfusion.org/free/el/rpmfusion-free-release-8.noarch.rpm https://mirrors.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-8.noarch.rpm
+dnf info nmap.x86_64 | ufw.noarch
+netstat -ntlp     netstat -aon       nmap
+sudo ./install-openqa.sh -> ./install-openqa-post-rocky.sh -> cat vars.json -> cat worker-log.txt
+ln -s /lib/systemd/system/<...>.service /etc/systemd/system/multi-user.target.wants/
+sudo dnf in lxc.x86_64 - >Linux Resource Containers provide process and resource isolation without the overhead of full virtualization.
+lxc-checkconfig
+printenv
+<ENV_VAR>=<new_value>		#set environment local variable
+tree
+dnf module list			#summary of all available versions of modules
+hostnamectl
+https://docs.fedoraproject.org/en-US/quick-docs/getting-started-with-apache-http-server/
+https://fedoraproject.org/wiki/Https#openssl
+openssl -  generate self signed certificate valid 2yrs
+openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 730
+You can also add -nodes (short for no DES) if you don't want to protect your private key with a passphrase. Otherwise it will prompt you for "at least a 4 character" password.
+The days parameter (730) you can replace with any number to affect the expiration date. It will then prompt you for things like "Country Name", but you can just hit Enter and accept the defaults.
+Add -subj '/CN=localhost' to suppress questions about the contents of the certificate (replace localhost with your desired domain).
+Self-signed certificates are not validated with any third party unless you import them to the browsers previously. If you need more security, you should use a certificate signed by a certificate authority (CA).
+[https://stackoverflow.com/questions/10175812/how-to-generate-a-self-signed-ssl-certificate-using-openssl]
+sscg - Tool for generating x.509 certificates
+https://github.com/skobyda/cockpit-certificates
+journalctl -xe
+dnf history
+journalctl --no-pager -u <name>.service
+fedoraproject.org/en-US/fedora-server/virtualization-install/			# howto install virtualisation on server
+/home/alan/.ssh/known_hosts    or    /root/.ssh/known_hosts
+pstree, killall, fuser and pslog. [package -> psmisc]
+whois 194.75.28.66								# ip address at 25-Oct-21
+!r8eol   !list									# commands for <R​ockMonitor>
+mt-st.x86_64 : The mt-st package contains the mt and st tape drive management
+             : programs. Mt (for magnetic tape drives) and st (for SCSI tape devices)
+             : can control rewinding, ejecting, skipping files and blocks and more.
+             : Install mt-st if you need a tool to  manage tape drives.
+migrate2rocky.sh
+lsblk (8)            - list block devices: lsblk -l -p
+lspci (8)            - list all PCI devices
+lsscsi (8)           - list SCSI devices (or hosts), list NVMe devices
+lsusb (8)            - list USB devices
+lvmdiskscan (8)      - List devices that may be used as physical volumes
+github: imagefactory to produce non-ISO images, e.g. for the cloud or other usage
+dnf whatprovides '/bin/sh'
+https://skip.linuxdn.org/blog.html#005_Rocky5_BuildLab_Part1
+https://git.rockylinux.org/rocky/kickstarts/-/blob/r8/Rocky-8-Container.ks
+https://git.rockylinux.org/staging/rpms
+https://rocky-linux-sources-staging.a1.rockylinux.org/%7BSHA1SUM%7D
+id										# user info
+/etc/mock/									# mock configs
+https://access.redhat.com/discussions/469323					# xsos          <<<<<<<<<<<<<<<<<<<<<
+sudo intel_gpu_top
+mokutil:     Description  : mokutil provides a tool to manage keys for Secure Boot through the MoK
+             : ("Machine's Own Keys") mechanism.
+
+in Firefox in Rocky download, right click to copy appropriate link and:-
+wget https://download.rockylinux.org/pub/rocky/8.5/isos/x86_64/Rocky-8.5-x86_64-boot.iso        <<<<<<<<<<<<<<<<<<<<<
+
+xz    Summary      : LZMA compression utilities     URL          : https://tukaani.org/xz/
+ Description : XZ Utils are an attempt to make LZMA compression easy to use on free (as in
+             : freedom) operating systems. This is achieved by providing tools and libraries
+             : which are similar to use than the equivalents of the most popular existing
+             : compression algorithms.
+             : LZMA is a general purpose compression algorithm designed by Igor Pavlov as
+             : part of 7-Zip. It provides high compression ratio while keeping the
+             : decompression speed fast.
+curl 'https://mirrors.rockylinux.org/mirrorlist?arch=x86_64&repo=BaseOS-8'	# repo = rocky-BaseOS-8.5 arch = x86_64 country = global  repo list
+mirror.netzwerge.de:rocky-linux							# If you are from europe  Dennis Körner
+try running dnf clean all then update? If that doesn’t work enabling baseurl for BaseOS and AppStream in /etc/yum.repos.d
+/etc/yum.repos.d								# repo data
+dnf updateinfo list --security --all						# errata? data
+https://errata.rockylinux.org/							# frontend for previous line
+https://www.dell.com/support/home/en-ie/product-support/servicetag/0-YlpHaEt5TTR4eE5RRDE5ciszbzNoZz090/drivers           # T610 server BIOS & driver updates
+below   atop 									# system monitors
+rpm -qi kernel
+kernel-lt kernel-ml								# long term and mainline stable kernels from elrepo for testing on el8
+selinux blocks the ports that ssh listens on, not the ports ssh connects to as a client
+https://opensource.com/business/13/11/selinux-policy-guide 			# good description of what selinux does
+https://wiki.centos.org/HowTos/SELinux 						# ditto
+setenforce=0 (-1)								# set selinux to permissive (enforcing)
+tail FILE [FILE] ...	alternative to cat					# Prints the last 10 lines of each FILE to standard output
+sudo sealert -a /var/log/audit/audit.log					# finds selinux alerts
+paste.rockylinux.org	[redirescts to https://rpa.st/]				# pastebin	<<<<<<<<<<<<<<<<<<<<<<<<<
+rpaste -t 0             [pastes stdin]						# ditto
+ss   vvvvvvvv
+Description  : Network Security Services (NSS) is a set of libraries designed to
+             : support cross-platform development of security-enabled client and
+             : server applications. Applications built with NSS can support SSL v2
+             : and v3, TLS, PKCS #5, PKCS #7, PKCS #11, PKCS #12, S/MIME, X.509
+             : v3 certificates, and other security standards.
+^^^^^^^^^^^^^
+[alan@76 ~]$ sudo ss -tulpn
+[sudo] password for alan: 
+Netid                 State                  Recv-Q                 Send-Q                                    Local Address:Port                                    Peer Address:Port                 Process                                                                                                                                                                                               
+udp                   UNCONN                 0                      0                                               0.0.0.0:5353                                         0.0.0.0:*                     users:(("avahi-daemon",pid=696,fd=13))                                                                                                                                                               
+udp                   UNCONN                 0                      0                                               0.0.0.0:5355                                         0.0.0.0:*                     users:(("systemd-resolve",pid=656,fd=10))                                                                                                                                                            
+udp                   UNCONN                 0                      0                                               0.0.0.0:51492                                        0.0.0.0:*                     users:(("GeckoMain",pid=7631,fd=154))                                                                                                                                                                
+udp                   UNCONN                 0                      0                                               0.0.0.0:35905                                        0.0.0.0:*                     users:(("GeckoMain",pid=7631,fd=175))                                                                                                                                                                
+udp                   UNCONN                 0                      0                                         192.168.122.1:53                                           0.0.0.0:*                     users:(("dnsmasq",pid=2208,fd=5))                                                                                                                                                                    
+udp                   UNCONN                 0                      0                                         127.0.0.53%lo:53                                           0.0.0.0:*                     users:(("systemd-resolve",pid=656,fd=16))                                                                                                                                                            
+udp                   UNCONN                 0                      0                                        0.0.0.0%virbr0:67                                           0.0.0.0:*                     users:(("dnsmasq",pid=2208,fd=3))                                                                                                                                                                    
+udp                   UNCONN                 0                      0                                               0.0.0.0:32932                                        0.0.0.0:*                     users:(("avahi-daemon",pid=696,fd=15))                                                                                                                                                               
+udp                   UNCONN                 0                      0                                             127.0.0.1:323                                          0.0.0.0:*                     users:(("chronyd",pid=893,fd=5))                                                                                                                                                                     
+udp                   UNCONN                 0                      0                                                  [::]:5353                                            [::]:*                     users:(("avahi-daemon",pid=696,fd=14))                                                                                                                                                               
+udp                   UNCONN                 0                      0                                                  [::]:5355                                            [::]:*                     users:(("systemd-resolve",pid=656,fd=12))                                                                                                                                                            
+udp                   UNCONN                 0                      0                                                  [::]:59375                                           [::]:*                     users:(("avahi-daemon",pid=696,fd=16))                                                                                                                                                               
+udp                   UNCONN                 0                      0                                                 [::1]:323                                             [::]:*                     users:(("chronyd",pid=893,fd=6))                                                                                                                                                                     
+tcp                   LISTEN                 0                      32                                        192.168.122.1:53                                           0.0.0.0:*                     users:(("dnsmasq",pid=2208,fd=6))                                                                                                                                                                    
+tcp                   LISTEN                 0                      4096                                      127.0.0.53%lo:53                                           0.0.0.0:*                     users:(("systemd-resolve",pid=656,fd=17))                                                                                                                                                            
+tcp                   LISTEN                 0                      128                                             0.0.0.0:631                                          0.0.0.0:*                     users:(("cupsd",pid=1011,fd=7))                                                                                                                                                                      
+tcp                   LISTEN                 0                      5                                             127.0.0.1:44321                                        0.0.0.0:*                     users:(("pmcd",pid=1462,fd=0))                                                                                                                                                                       
+tcp                   LISTEN                 0                      5                                             127.0.0.1:4330                                         0.0.0.0:*                     users:(("pmlogger",pid=2412,fd=7))                                                                                                                                                                   
+tcp                   LISTEN                 0                      4096                                            0.0.0.0:5355                                         0.0.0.0:*                     users:(("systemd-resolve",pid=656,fd=11))                                                                                                                                                            
+tcp                   LISTEN                 0                      128                                                [::]:631                                             [::]:*                     users:(("cupsd",pid=1011,fd=8))                                                                                                                                                                      
+tcp                   LISTEN                 0                      4096                                                  *:443                                                *:*                     users:(("httpd",pid=1238,fd=4),("httpd",pid=1236,fd=4),("httpd",pid=1234,fd=4),("httpd",pid=1233,fd=4),("httpd",pid=1130,fd=4),("systemd",pid=1,fd=72))                                              
+tcp                   LISTEN                 0                      5                                                 [::1]:44321                                           [::]:*                     users:(("pmcd",pid=1462,fd=3))                                                                                                                                                                       
+tcp                   LISTEN                 0                      4096                                                  *:9090                                               *:*                     users:(("systemd",pid=1,fd=68))                                                                                                                                                                      
+tcp                   LISTEN                 0                      5                                                 [::1]:4330                                            [::]:*                     users:(("pmlogger",pid=2412,fd=8))                                                                                                                                                                   
+tcp                   LISTEN                 0                      4096                                               [::]:5355                                            [::]:*                     users:(("systemd-resolve",pid=656,fd=13))                                                                                                                                                            
+tcp                   LISTEN                 0                      4096                                                  *:80                                                 *:*                     users:(("httpd",pid=1238,fd=3),("httpd",pid=1236,fd=3),("httpd",pid=1234,fd=3),("httpd",pid=1233,fd=3),("httpd",pid=1130,fd=3),("systemd",pid=1,fd=71))                                              
+[alan@76 ~]$ 
+
+
+firewall-cmd --list-all
+FedoraWorkstation (active)
+  target: default
+  icmp-block-inversion: no
+  interfaces: eno1
+  sources: 
+  services: dhcpv6-client mdns samba-client ssh
+  ports: 1025-65535/udp 1025-65535/tcp
+  protocols: 
+  forward: no
+  masquerade: no
+  forward-ports: 
+  source-ports: 
+  icmp-blocks: 
+  rich rules: 
+[alan@76 ~]$ 
+
+Bash Shell Keyboard Shortcuts
+Ctrl + A	Go to the beginning of the line you are currently typing on
+Ctrl + E	Go to the end of the line you are currently typing on
+Ctrl + L	Clears the Screen, similar to the clear command
+Ctrl + U	Clears the line before the cursor position. If you are at the end of the line, clears the entire line.
+Ctrl + H	Same as backspace
+Ctrl + R	Let's you search through previously used commands
+Ctrl + C	Kill whatever you are running
+Ctrl + D	Exit the current shell
+Ctrl + Z	Puts whatever you are running into a suspended background process. fg restores it.
+Ctrl + W	Delete the word before the cursor
+Ctrl + K	Clear the line after the cursor
+Ctrl + T	Swap the last two characters before the cursor
+Esc + T	Swap the last two words before the cursor
+Alt + F	Move cursor forward one word on the current line
+Alt + B	Move cursor backward one word on the current line
+Tab	Auto-complete files and folder names
+!<keyword>   calls Rocky factoid
+findmnt								# show mount points
+Skip Grube
+22:40 09/12/21 
+FWIW, the current Rocky build koji instance ( https://koji.rockylinux.org/koji/ , how we build all our packages) - if you look at the various builds, it's just mock and mock logs underneath
+mokutil --sb-state						# secure boot status
+Description  : tmux is a "terminal multiplexer."  It enables a number of terminals (or
+             : windows) to be accessed and controlled from a single terminal.  tmux is
+             : intended to be a simple, modern, BSD-licensed alternative to programs such
+             : as GNU Screen.
+
+datatables		https://skiprocky.linuxdn.org/INCOMING/
+# https://elrepo.org/linux/dud/el8/x86_64/								# drivers		<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+https://elrepo.org/linux/dud/el8/x86_64/dd-megaraid_sas-07.710.50.00-1.el8_2.elrepo.SHA256SUM.asc	# megaraid driver	<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+efibootmgr
+Description  : efibootmgr displays and allows the user to edit the Intel Extensible
+             : Firmware Interface (EFI) Boot Manager variables.  Additional
+             : information about EFI can be found at https://uefi.org/.
+audit2why audit2allow											# selinux helpers	<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+https://docs.rockylinux.org/guides/security/learning_selinux/						# & doc
+https://dl.rockylinux.org/pub/rocky/8/images/								# qcow2 images for cloud (or VM's?)
+<e​lectronic_eel> low: kickstart is easy: just do a manual install once. anaconda will write a
+matching kickstart file into /root. you can use that to reproduce this install afterwards
+Copr Buildsystem
+	Copr is designed to be a lightweight buildsystem that allows contributors to create
+	packages, put them in repositories, and make it easy for users to install the packages
+	onto their system. Within the Fedora Project it is used to allow packagers to create
+	third party repositories.
+sudo cat /root/anaconda-ks.cfg										# kickstart config file for reinstall or reference
+lorax	vv												# development tool for rocky iso images & live images  vv
+nazunalika: No koji vv
+Basically it comes down to limitations that have burned us with koji and the other tools (eg. MBS) over the past year as well as things that we want to do but we really can't with the current implementation and architecture without massive modifications to koji and surrounding tools. We got the stuff working the way it is now for the short term, but it can be better and more dynamic (everything is pretty static). There's really nothing wrong with koji itself, as long as you have the proper tooling and automation around it (fedora does of course, and they're very successful in what they're doing for obvious reasons because they have many, many years of development and experience with the stuff they've made and remade - centos is doing really well with stream using the same foundation that has served Fedora well). For us right now though, it's just a maintenance nightmare, and there are things we want to do that the current set of tools can't provide us. So it made more sense to do something homegrown.
+Though there is one tool that comes to mind, and that is lorax, while not specific to koji (but called by pungi), that will be one tool we'll carry through with us to the new system though, as its job is handling ISO images (it's part of the base of EL and Fedora). Very good tool, it's how we produce the live images too. 
+We'll end up going into greater detail when we get the release out (both the source and the first deployment). Maybe a presentation and/or a blog post about it too. But we can answer some questions here and there before then too.
+^^
+dnf repolist --all											# shows all available repos
+
+Matrox G200 is getting official Linux kernel support in 5.10
+https://www.phoronix.com/scan.php?page=news_item&px=Matrox-G200-DRM-Driver 
+NezSez   ah, in that case 'intel_iommu' and 'iommu=pt' (pt is for "pass through" for vm guest direct usage, usually used for video cards and NICs)
+I also had several Matrox, ATI, and Diamond cards back in the day. One of them actually had an integrated "Bus" mouse on it.
+The Dell R720 (so I assume many other Dell servers) has a Matrox on it too.
+nmcli device show   nmcli connection show
+dnf repoquery --groupmember NetworkManager-wifi
+https://fedoraproject.org/wiki/QA:Testcase_Mediakit_Repoclosure
+dnf repolist -v												# shows lot of detail
+https://blog.while-true-do.io/podman-auto-updates/							# podman auto updates
+https://www.redhat.com/sysadmin/check-yaml-yamllint?sc_cid=7013a000002qP1mAAE				# yamllint instructions
+git@github.com:Organization/repository.git								# github secure clone
+------------------------------------------------------------------------------------------------vvvvvvvv# config .ssh
+ls -alh
+ls -alh .ssh
+ssh-keygen -t ed25519 -C "alangm1001@gmail.com"
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519
+cat ~/.ssh/id_ed25519.pub
+ls -alh .ssh
+cat .ssh/known_hosts
+ls -alh Downloads
+scp 192.168.1.78:vagrant_2.2.19_x86_64.rpm vagrant_2.2.19_x86_64.rpm
+scp 192.168.1.78:vagrant_2.2.19_x86_64.rpm Downloads/vagrant_2.2.19_x86_64.rpm
+scp alan@192.168.1.78:vagrant_2.2.19_x86_64.rpm Downloads/vagrant_2.2.19_x86_64.rpm
+scp Downloads/vagrant_2.2.19_x86_64.rpm 192.168.1.78:vagrant_2.2.19_x86_64.rpm
+------------------------------------------------------------------------------------------------^^^^^^^^# config .ssh
+sudo dnf install -y dnf-plugins-core								vvvvvvvv#  install packer/hashicorp repo
+sudo dnf config-manager --add-repo https://rpm.releases.hashicorp.com/fedora/hashicorp.repo
+sudo dnf -y install packer
+-------------------------------------------------------------------------------------------------^^^^^^^# install packer/hashicorp repo vvvvvvv#
+
