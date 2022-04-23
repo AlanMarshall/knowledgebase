@@ -1,4 +1,4 @@
-Useful commands:-
+Useful commands:-									# a miscellaneous collection of cli commands
 
 lpstat - print cups status information
 dnf groupinfo "..."
