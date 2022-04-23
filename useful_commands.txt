@@ -240,4 +240,5 @@ sudo dnf install -y dnf-plugins-core								vvvvvvvv#  install packer/hashicorp 
 sudo dnf config-manager --add-repo https://rpm.releases.hashicorp.com/fedora/hashicorp.repo
 sudo dnf -y install packer
 -------------------------------------------------------------------------------------------------^^^^^^^# install packer/hashicorp repo vvvvvvv#
+git clone git@github.com:ownername/reponame								# use ssh clone now for authentication
 
