@@ -240,8 +240,9 @@ sudo dnf install -y dnf-plugins-core								vvvvvvvv#  install packer/hashicorp 
 sudo dnf config-manager --add-repo https://rpm.releases.hashicorp.com/fedora/hashicorp.repo
 sudo dnf -y install packer
 -------------------------------------------------------------------------------------------------^^^^^^^# install packer/hashicorp repo vvvvvvv#
+https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
 git clone git@github.com:ownername/reponame								# use ssh clone now for authentication
 eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/id_ed25519
-Enter passphrase for /home/alan/.ssh/id_ed25519: local76key
+Enter passphrase for /home/alan/.ssh/id_ed25519: no spaces
 
