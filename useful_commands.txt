@@ -235,6 +235,7 @@ scp 192.168.1.78:vagrant_2.2.19_x86_64.rpm vagrant_2.2.19_x86_64.rpm
 scp 192.168.1.78:vagrant_2.2.19_x86_64.rpm Downloads/vagrant_2.2.19_x86_64.rpm
 scp alan@192.168.1.78:vagrant_2.2.19_x86_64.rpm Downloads/vagrant_2.2.19_x86_64.rpm
 scp Downloads/vagrant_2.2.19_x86_64.rpm 192.168.1.78:vagrant_2.2.19_x86_64.rpm
+vagrant up												# to start build
 ------------------------------------------------------------------------------------------------^^^^^^^^# config .ssh
 sudo dnf install -y dnf-plugins-core								vvvvvvvv#  install packer/hashicorp repo
 sudo dnf config-manager --add-repo https://rpm.releases.hashicorp.com/fedora/hashicorp.repo
