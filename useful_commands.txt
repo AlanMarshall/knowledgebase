@@ -246,4 +246,36 @@ git clone git@github.com:ownername/reponame								# use ssh clone now for authe
 eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/id_ed25519
 Enter passphrase for /home/alan/.ssh/id_ed25519: no spaces
+lsmod - Show the status of modules in the Linux Kernel
+------------------------------------------------------------------------------------------------vvvvvvvv#
+https://wiki.rockylinux.org/team/testing/QA/Testcase_Media_USB_dd/
+Download the Rocky Linux ISO image you wish to test onto the test system.
+Example command:
+curl -LOR http://dl.rockylinux.org/pub/rocky/8/isos/x86_64/Rocky-8.5-x86_64-boot.iso
+Download the CHECKSUM file that goes with the Rocky Linux ISO image that you wish to test.
+Example command:
+curl -LOR http://dl.rockylinux.org/pub/rocky/8/isos/x86_64/CHECKSUM
+Download the CHECKSUM.sig file that does with the CHECKSUM file.
+Example command:
+curl -LOR http://dl.rockylinux.org/pub/rocky/8/isos/x86_64/CHECKSUM.sig
+Download the Rocky Release Engineering GPG key.
+Example command:
+curl -LOR http://dl.rockylinux.org/pub/rocky/RPM-GPG-KEY-rockyofficial
+------------------------------------------------------------------------------------------------^^^^^^^^#
+Import the Rocky Release Engineering GPG key.
+Example command:
+gpg --import RPM-GPG-KEY-rockyofficial
+Verify the signature of the CHECKSUM file.
+Example command:
+gpg --verify-file CHECKSUM.sig
+Verify the CHECKSUM of the Rocky Linux ISO...
+Example command:
+shasum -a 256 --ignore-missing -c CHECKSUM
+Write the Rocky Linux ISO to the USB media using dd...
+Example command:
+dd if=Rocky-8.5-x86_64-boot.iso of=/dev/sdX bs=16M status=progress oflag=direct
+...where you replace sdX with the device identifier of your USB media.
+------------------------------------------------------------------------------------------------^^^^^^^^#
+dnf repoclosure												# lists unresolved dependencies
+7zip tasks 7zz 7za 7zG											# why not 7zip???
 

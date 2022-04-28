@@ -1,0 +1,3 @@
+Howto install vm from qcow2 file.
+sudo copy file to /var/lib/libvirt/images in host machine preferably giving the copy a consise name
+
