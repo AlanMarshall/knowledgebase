@@ -277,5 +277,5 @@ dd if=Rocky-8.5-x86_64-boot.iso of=/dev/sdX bs=16M status=progress oflag=direct
 ...where you replace sdX with the device identifier of your USB media.
 ------------------------------------------------------------------------------------------------^^^^^^^^#
 dnf repoclosure												# lists unresolved dependencies
-7zip tasks 7zz 7za 7zG											# why not 7zip???
+7zip tasks 7zz (cli version) 7za (archive) 7zG (graphical)										# why not 7zip???
 
