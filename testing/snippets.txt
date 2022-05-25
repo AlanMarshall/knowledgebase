@@ -1,0 +1,203 @@
+nazunalika
+08:53 09/05/22 (BST)
+
+IMO your "testing suite" should only care about what's in the metadata and test based on the parameters of how we have patched the packages, which can be figured out by looking at our patch repos and then looking at the finished binary packages to sess out how the changes affected the build (assets, binaries, text files, code eg python files, rpm info, and so on). If you truly want to look for a change log first, then sure, go for it. But it should not be a hard failure because not everything deserves a change log, especially when it's just a change to info found with rpm -qi.
+
+I will always stick by the opinion that grepping/parsing for strings to determine something was "done" is prone to failure and can turn up false positives/negatives anyway.
+nazunalika
+07:38 12/05/22 (BST)
+
+Hello Testers.
+
+We have completed a compose for Rocky 8.6. Please note that unless otherwise specified, these are not to be considered final images. Only update test systems to this release from 8.5 or install brand new systems. It is recommended to NOT continue running systems from these images.
+
+Some packages may appear to be older than in 8.5. This is expected and temporary. Do NOT report this as a bug, but you can still note it if you wish.
+
+A new perl stream (5.32) is part of this release. Please ensure that there are no issues with this particular stream and that other streams related to perl are still working as expected. This stream should also not be conflicting with the base 5.26 perl.
+A new PHP stream (8.0) is part of this release. Please ensure that there are no issues with this particular stream.
+A new module log4j is available.
+
+To use anything for 8.6, you will need to modify the repos to point to the staging directories. This can be done by uncommenting baseurl and changing the /etc/dnf/vars/contentdir file to state stg instead of pub. Note that doing this will prevent you from using EPEL if you use it in your testing environment.
+
+Images can be downloaded here: https://dl.rockylinux.org/stg/rocky/8/isos
+
+lumarel
+07:39
+
+Cool, will start downloading~
+Brian Clemens
+07:39
+
+Tagging @all ^^^
+lumarel
+07:45
+
+Also already have a sync for that staging dir in my Foreman (for the checksum check)
+alangm
+08:04
+
+Downloading now.
+lumarel
+08:06
+
+@nazunalika Is this expected, that the NFV repo changed from small letters to big letters of the repo name?
+nazunalika
+08:07
+
+it's unfortunately expected, because NFV is now part of the standard comps and variants. I forgot to add a symlink to deal with the change.
+lumarel
+08:08
+
+Okay no worries, I just noticed it because Foreman didn't want to sync because of that :+1_light_skin_tone: (I expect that also to happen with dnf)
+nazunalika
+08:09
+
+Symlink should be there now, so give it a whirl.
+lumarel
+08:09
+
+Yup, now it works!
+Luna Jernberg
+09:18
+
+downloading to test in Virtualbox
+lumarel
+09:21
+
+First machine already running on ESXi  :ok_hand_light_skin_tone: 
+lumarel
+09:27
+
+Sync of all repos finished successfully, no checksum or other errors :+1_light_skin_tone:
+lumarel
+09:53
+
+This is not expected to happen, right?:
+https://rpa.st/OUSA
+
+I just wanted to check the mentioned once first
+
+Booted with the ISO1 x86_64, used minimal with guest tools, changed repos to stg, and then tried to enable perl and install a package 
+nazunalika
+10:03
+
+yikes. 8.3 flashbacks.
+lumarel
+10:03
+
+Yeah... sorry
+nazunalika
+10:03
+
+it's not your fault, this is good. gives us a chance to fix this up.
+lumarel
+10:04
+
+I know I still hate to report such nasty stuff ^^
+nazunalika
+10:04
+
+Alright, so I think this is what happened
+lumarel
+10:05
+
+php:8.0 looks good up to now :+1_light_skin_tone:
+nazunalika
+10:05
+
+We built the new perl stream 5.32. And naturally, the other perl module streams (like perl-YAML) had updates. so I told those to build. for whatever reason, they built for perl 5.24, 26 and 30. but not 32.
+
+this is why we're getting this weirdness.
+lumarel
+10:06
+
+Oh ouch, but at least you immediately know the issue :slightly_smiling_face:
+Luna Jernberg
+10:12
+
+still downloading
+nazunalika
+10:12
+
+It's basically a matter of finding each perl module that builds with every perl stream and telling it to rebuild, I believe.
+
+for example, the perl error I was getting was perl-YAML (way different from yours, you were able to enable the module, I couldn't get that far)
+
+there's no perl-YAML for 5.32 built.
+
+another example is perl-DBI. It built for all 4 perl streams, but perl-DBD-* modules use perl-DBI has a build requirement. they were using the old ones that only had 5.24/26/30, so they didn't get a 32 stream.
+lumarel
+10:18
+
+Hm really interesting..
+nazunalika
+10:22
+
+what I'm hoping for is if I fix those modules, that we don't run into those messages you got again. because that would tell me for some reason perl 5.32 was reaching in and getting 5.26 stuff again somewhere. (fortunately the build log for perl 5.32 itself doesn't show that happening, so here's to hope)
+lumarel
+10:36
+
+Okay then hope and see :slightly_smiling_face:
+lumarel
+10:52
+
+Okay finally all 3 images are downloaded will get ready to start all of the OpenQA Testcases, lets see if it finds something
+nazunalika
+11:07
+
+anything perl 5.32 related will be broken... so anything else that we find, let me know. I'm going to lay down for a bit.
+
+broken for the time being, anyway, while I try to fix it.
+Luna Jernberg
+11:22
+
+installing now
+New Messages
+Luna Jernberg
+11:30
+
+install went fine :slightly_smiling_face:
+http://dl.rockylinux.org/stg/rocky/8/AppStream/x86_64/os/
+
+About the upgrade to 36, we will have to try this, but the changes page says, that you manually have to run postgresql-setup --upgrade after the upgrade
+
+-------------------------------------------------------------------------------
+<r​aktajino> not sure if this is the right place to ask but I'm about to get set up with GPG commit signing for my rocky contributions. I've used GPG before but apparently not Correctly™. Wondering if this guide https://alexcabal.com/creating-the-perfect-gpg-keypair is a good place to start or if anyone here can suggest an alternative
+Neil Hanlon
+17:36
+https://blog.braincoke.fr/security/create-a-gpg-key/ is a good guide
+Braincoke's log
+Create a GPG key
+GnuPG is a complete and free implementation of the OpenPGP standard which lets you send and receive encrypted emails, amongst other things.
+though, i'd suggest eddsa instead of rsa keys
+BOT
+17:42
+<r​aktajino> thanks Neil
+[matterbridge]
+BOT
+17:47
+<r​aktajino> @Neil Hanlon re: eddsa (ecdsa?) is that going to be one of the ECC options listed in this guide
+Neil Hanlon
+17:53
+yeah. ecdsa and eddsa are different
+you need to run the create key wizard with --expert iirc
+i.e.: gpg --full-gen-key --expert
+Hayden
+18:37
+@Neil Hanlon For reference, when generating the signing key in that guide, which elliptic curve should I use in order to be using eddsa? I was under the impression that the NIST P-xxx ones were ecdsa, no?
+[matterbridge]
+BOT
+18:42
+<n​eil> curve 25519
+Hayden
+18:42
+Gotcha.
+[matterbridge]
+BOT
+18:42
+<n​eil> this describes eddsa keys with rsa sub keys which can be helpful in some scenarios https://www.digitalneanderthal.com/post/gpg/
+Generate GPG Keys With Curve Ed25519
+Trust the developers, not the code hosting infrastructure. ~Linux Kernel Maintainers PGP Guide Why GPG? “The distinction between what is public and what is private is becoming more and more blurred with the increasing intrusiveness of the media and advances in electronic technology...
+-------------------------------------------------------------------------------
+
+

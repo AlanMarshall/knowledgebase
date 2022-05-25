@@ -27,7 +27,7 @@ printenv
 <ENV_VAR>=<new_value>		#set environment local variable
 tree
 dnf module list			#summary of all available versions of modules
-hostnamectl
+hostnamectl set-hostname ...							# set fully qualified domain name???
 https://docs.fedoraproject.org/en-US/quick-docs/getting-started-with-apache-http-server/
 https://fedoraproject.org/wiki/Https#openssl
 openssl -  generate self signed certificate valid 2yrs
@@ -277,5 +277,32 @@ dd if=Rocky-8.5-x86_64-boot.iso of=/dev/sdX bs=16M status=progress oflag=direct
 ...where you replace sdX with the device identifier of your USB media.
 ------------------------------------------------------------------------------------------------^^^^^^^^#
 dnf repoclosure												# lists unresolved dependencies
-7zip tasks 7zz (cli version) 7za (archive) 7zG (graphical)										# why not 7zip???
+7zip tasks 7zz (cli version) 7za (archive) 7zG (graphical)						# why not 7zip???
+pydoc   												# Python modules & packages help run pydoc
+sudo systemctl start docker		then: docker run hello-world to check				# 
+Description  : Neovim is a refactor - and sometimes redactor - in the tradition of
+             : Vim, which itself derives from Stevie. It is not a rewrite, but a
+             : continuation and extension of Vim. Many rewrites, clones, emulators
+             : and imitators exist; some are very clever, but none are Vim. Neovim
+             : strives to be a superset of Vim, notwithstanding some intentionally
+             : removed misfeatures; excepting those few and carefully-considered
+             : excisions, Neovim is Vim. It is built for users who want the good
+             : parts of Vim, without compromise, and more.
+
+tc: reports of possible broken packages  nh: etherpad (https://etherpad.opendev.org/) or a snippet	# we can triage them there
+sha256sum CHECKSUM *
+postgresql database is in /var/lib/pgsql/data;  if it is out of date delete it and run sudo postgresql-setup --initdb
+https://dl.rockylinux.org/stg/rocky/8/BaseOS/x86_64/os/.treeinfo					# get hidden file treeinfo in iso
+https://dl.rockylinux.org/stg/rocky/8/BaseOS/x86_64/os/.discinfo					# get hidden file discinfo in iso
+curl -s https://dl.rockylinux.org/stg/rocky/8.6-RC1/BaseOS/x86_64/os/.treeinfo				# ditto
+lsblk													# list block device tree
+@lumeral And now going to the createhdd stuff,
+toolbox is a really great thing for this, easily makes me able to run this on my laptop without cluttering the OS
+dnf [options] swap <remove-spec> <install-spec>								# conflict solving via --allowerasing
+sudo dnf install $(dnf search perl- | awk -F'.' '/^perl-/{print $1}' | grep -v perl-Ocsinventory-Agent)	# find perl (@stack)
+
+to install openqa for rocky:-
+cd to OpenQA-Fedora-Installation cloned from github   then  ./install-openqa-post-rocky.sh
+also see NOTES.md & README.md
+openqa asset isos are in   /var/lib/openqa/factory/iso/fixed  eg: Rocky-8.6-x86_64-dvd1.iso
 
