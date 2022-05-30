@@ -1,0 +1,6 @@
+
+
+cd to:  /home/alan/zr8/alan/git/os-autoinst-distri-rocky
+git branch to appropriate
+./fifloader.py --update --load templates.fif.json				# +any other .json files needed
+

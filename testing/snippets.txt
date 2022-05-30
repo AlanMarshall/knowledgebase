@@ -199,5 +199,28 @@ BOT
 Generate GPG Keys With Curve Ed25519
 Trust the developers, not the code hosting infrastructure. ~Linux Kernel Maintainers PGP Guide Why GPG? “The distinction between what is public and what is private is becoming more and more blurred with the increasing intrusiveness of the media and advances in electronic technology...
 -------------------------------------------------------------------------------
-
+entry for Rocky_Linux_8.6_QA_and_Testing_Summary etherpad
+As a training exercise on openqa test on Rocky-8.6-x86_64-dvd1.iso repeated test sequence through disc size failure, fix, retest ok and needles development.
+stuck at licence failure "Test died: no candidate needle with tag(s) 'login_screen' matched"
+-------------------------------------------------------------------------------
+r​aktajino> @alangm my plan was going to be to create a container image that downloads all the ISOs and their checksums file and then verifies the checksums. Maybe have the architecture parameterized.
+-------------------------------------------------------------------------------
+Name         : python3-molecule
+Version      : 3.5.2
+Release      : 3.fc36
+Architecture : noarch
+Size         : 284 k
+Source       : python-molecule-3.5.2-3.fc36.src.rpm
+Repository   : fedora
+Summary      : Molecule is designed to aid in the development and testing of Ansible roles
+URL          : https://github.com/ansible/molecule
+License      : MIT and ASL 2.0
+Description  : Molecule is designed to aid in the development and testing of Ansible roles.
+             : Molecule provides support for testing with multiple instances, operating
+             : systems and distributions, virtualization providers, test frameworks and
+             : testing scenarios. Molecule is opinionated in order to encourage an approach
+             : that results in consistently developed roles that are well-written, easily
+             : understood and maintained. Molecule uses Ansible playbooks to exercise the role
+             : and its associated tests. Molecule supports any provider that Ansible supports.
+-------------------------------------------------------------------------------
 
