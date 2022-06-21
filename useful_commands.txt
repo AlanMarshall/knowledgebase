@@ -241,6 +241,10 @@ sudo dnf install -y dnf-plugins-core								vvvvvvvv#  install packer/hashicorp 
 sudo dnf config-manager --add-repo https://rpm.releases.hashicorp.com/fedora/hashicorp.repo
 sudo dnf -y install packer
 -------------------------------------------------------------------------------------------------^^^^^^^# install packer/hashicorp repo vvvvvvv#
+dnf-config-manager - DNF config-manager Plugin	<enable>
+	Manage main and repository DNF configuration options, toggle which repositories are enabled or disabled, and add new repositories.
+<S​okel>  dnf config-manager --set-enabled powertools
+--------------------------------------------------------------------------------------------------------#
 https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
 git clone git@github.com:ownername/reponame								# use ssh clone now for authentication
 eval "$(ssh-agent -s)"
@@ -308,12 +312,414 @@ openqa asset isos are in   /var/lib/openqa/factory/iso/fixed  eg: Rocky-8.6-x86_
 wg is the configuration utility  for getting and setting the configuration of WireGuard tunnel interfaces. The interfaces themselves
 	can be added and removed using ip-link(8) and their IP addresses and routing tables can be set using ip-address(8) and ip-route(8).
 	The wg utility provides a series of sub-commands for changing WireGuard-specific aspects of WireGuard interfaces.
-------------------------------------------------------------------------------------------------^^^^^^^^#
+--------------------------------------------------------------------------------------------------------#
 pass - stores, retrieves, generates, and synchronizes passwords securely
-------------------------------------------------------------------------------------------------^^^^^^^^#
+--------------------------------------------------------------------------------------------------------#
 Summary      : Manage GPG encryption keys
 URL          : https://www.kde.org/applications/utilities/kgpg/
 License      : GPLv2+
 Description  : KGpg is a simple interface for GnuPG, a powerful encryption utility.
-------------------------------------------------------------------------------------------------^^^^^^^^#
+--------------------------------------------------------------------------------------------------------#
+see github help for ssh and gpg install instructions.
+also 
+git config --global gpg.program gpg2
+git config --global user.signingkey  4DF85D1B967F51A6
+git config commit.gpgsign true
+git config --global commit.gpgsign true
+[alan@73 ~]$ git config -l										# global settings
+user.email=alangm1001@gmail.com
+user.name=AlanMarshall
+user.signingkey=4DF85D1B967F51A6
+safe.directory=/var/lib/openqa/share/tests/rocky
+gpg.program=gpg2
+commit.gpgsign=true
+[alan@73 ~]$ [ -f ~/.bashrc ] && echo 'export GPG_TTY=$(tty)' >> ~/.bashrc				# inserts "export GPG_TTY=$(tty)" in .bashrc
+[alan@73 ~]$ 
+--------------------------------------------------------------------------------------------------------#
+createhdds command line start: displays on cockpit vm "createhdds"
+virt-install --disk size=15,path=disk_rocky8.6_support_x86_64.qcow2.tmp --os-variant rocky8.6 -x inst.ks=file:/support.ks --initrd-inject /home/alan/git/createhdds/support.ks --location https://download.rockylinux.org/stg/rocky/8/BaseOS/x86_64/os --name createhdds --memory 3072 --noreboot --wait -1 --graphics vnc --noautoconsole --network user
+or:
+virt-install \
+ --disk size=15,path=disk_rocky8.6_support_x86_64.qcow2.tmp \
+ --os-variant rocky8.6 -x inst.ks=file:/support.ks \
+ --initrd-inject /home/alan/git/createhdds/support.ks \
+ --location https://download.rockylinux.org/stg/rocky/8/BaseOS/x86_64/os \
+ --name createhdds \
+ --memory 3072 \
+ --noreboot \
+ --wait -1 \
+ --graphics vnc \
+ --noautoconsole \
+ --network user
+--------------------------------------------------------------------------------------------------------#
+rhel9.0
+[alan@78 createhdds]$ virt-install --disk size=15,path=disk_rhel9.0_support_x86_64.qcow2 --os-variant rhel9.0  --cdrom /home/alan/git/createhdds/rhel-baseos-9.0-x86_64-dvd.iso --name rhel9 --memory 4096 --noreboot --wait -1 --graphics vnc --noautoconsole --network user
+ie:
+[alan@78 createhdds]$ virt-install \
+ --disk size=15,path=disk_rhel9.0_support_x86_64.qcow2 \
+ --os-variant rhel9.0  \
+ --cdrom /home/alan/git/createhdds/rhel-baseos-9.0-x86_64-dvd.iso \
+ --name rhel9 \
+ --memory 4096 \
+ --noreboot \
+ --wait -1 \
+ --graphics vnc \
+ --noautoconsole \
+ --network user
+[alan@78 createhdds]$ virt-install --disk size=15,path=disk_rhel9.0_support_x86_64.qcow2 --os-variant rhel9.0  --cdrom /home/alan/zr8/alan/testing/repo_compare/rhel-baseos-9.0-x86_64-dvd.iso --name rhel9 --memory 4096 --noreboot --wait -1 --graphics vnc --noautoconsole --network user
+You can restart your domain by running:
+  virsh --connect qemu:///session start rhel9
+  virsh --connect qemu:///session start <vm_name>
+--------------------------------------------------------------------------------------------------------#
+f36-k5.18.1-tst
+[alan@78 f36-k5.18.1-tst]$ virt-install  --disk size=20,path=disk_f36-k5.18.1-tst_x86_64.qcow2  --os-variant fedora35   --cdrom /home/alan/testing/kerneltest-5.18.1.iso  --name f36-k5.18.1-tst  --memory 4096  --noreboot  --wait -1  --graphics vnc  --noautoconsole  --network user
+[alan@78 f36-k5.18.1-tst]$ virt-install \
+ --disk size=20,path=disk_f36-k5.18.1-tst_x86_64.qcow2 \
+ --os-variant fedora36  \
+ --cdrom /home/alan/testing/kerneltest-5.18.1.iso \
+ --name f36-k5.18.1-tst \
+ --memory 4096 \
+ --noreboot \
+ --wait -1 \
+ 
+ --graphics vnc \
+ --noautoconsole \
+ --network user
+--------------------------------------------------------------------------------------------------------#
+virt-install --disk size=10,path=disk_rocky9.0_x86_64.qcow2 --os-variant rocky9.0  --cdrom /home/alan/zr8/alan/testing/rocky/Rocky-9.0-RC1-x86_64-boot.iso --name rocky9_0 --memory 2048 --noreboot --wait -1 --graphics vnc --noautoconsole --network user
+--------------------------------------------------------------------------------------------------------#
+Name         : ostree
+Version      : 2022.3
+Release      : 3.fc36
+Architecture : x86_64
+Size         : 549 k
+Source       : ostree-2022.3-3.fc36.src.rpm
+Repository   : @System
+From repo    : updates
+Summary      : Tool for managing bootable, immutable filesystem trees
+URL          : https://ostree.readthedocs.io/en/latest/
+License      : LGPLv2+
+Description  : libostree is a shared library designed primarily for
+             : use by higher level tools to manage host systems (e.g. rpm-ostree),
+             : as well as container tools like flatpak and the atomic CLI.
+             
+Name         : rpm-ostree
+Version      : 2022.9
+Release      : 1.fc36
+Architecture : x86_64
+Size         : 3.6 M
+Source       : rpm-ostree-2022.9-1.fc36.src.rpm
+Repository   : updates
+Summary      : Hybrid image/package system
+URL          : https://github.com/coreos/rpm-ostree
+License      : LGPLv2+
+Description  : rpm-ostree is a hybrid image/package system.  It supports
+             : "composing" packages on a build server into an OSTree repository,
+             : which can then be replicated by client systems with atomic upgrades.
+             : Additionally, unlike many "pure" image systems, with rpm-ostree
+             : each client system can layer on additional packages, providing
+             : a "best of both worlds" approach.
+
+[alan@73 ~]$ sudo dnf install rpm-ostree.x86_64
+--------------------------------------------------------------------------------------------------------#
+HIER(7)  Linux Programmer's Manual
+man hier - 		description of the filesystem hierarchy
+man file-hierarchy - 	File system hierarchy overview
+--------------------------------------------------------------------------------------------------------#
+Name         : BackupPC
+Version      : 4.4.0
+Release      : 6.fc36
+Architecture : x86_64
+Size         : 432 k
+Source       : BackupPC-4.4.0-6.fc36.src.rpm
+Repository   : fedora
+Summary      : High-performance backup system
+URL          : http://backuppc.github.io/backuppc/index.html
+License      : GPLv2+
+Description  : BackupPC is a high-performance, enterprise-grade system for backing up Linux
+             : and WinXX and Mac OS X PCs and laptops to a server's disk. BackupPC is highly
+             : configurable and easy to install and maintain.
+             : 
+             : NOTE: Proper configuration is required after install, see README.setup for more
+             : information.
+--------------------------------------------------------------------------------------------------------#
+git fetch upstream pull/104/head:pr104
+i also get # Test died: command 'egrep 'selected environment:' /tmp/anaconda.log /tmp/packaging.log | tail -1 | grep graphical-server-environment' failed at rocky/tests/_software_selection.pm line 20. for install_default
+--------------------------------------------------------------------------------------------------------#
+Testing team... if you specify inst.repo=https://yumrepofs.build.resf.org/v1/projects/55b17281-bc54-4929-8aca-a8a11d628738/repo/all/x86_64 as a kernel boot option you should be able to install any/all Software Selections directly from Peridot yumrepofs without repos on dl.rockylinux.org. There are multiple ways to do this from inside openQA.
+Note: Potentially an issue we need to figure out with BIOS install. Screen doesn't seem to scroll to expose the User Setup spoke button (ie. we can't capture a needle) but it is still selectable with correct tab/enter sequence. Most / all openQA tests expect to setup the test user. Checking behavior in UEFI mode now...
+Correction... Periodot yumrepofs will only provide the Server, Minimal and Custom Operating System options in Software Selection. In UEFI mode the User Creation spoke is right where you would expect it to be.
+sorry... my bad. Replace all with BaseOS. Here is the correct URL...
+https://yumrepofs.build.resf.org/v1/projects/55b17281-bc54-4929-8aca-a8a11d628738/repo/BaseOS/AppStream/x86_64
+openqa-cli api -X POST isos ISO=boot-x86_64.iso ARCH=x86_64 DISTRI=rocky FLAVOR=boot-iso VERSION=9.0 BUILD=-boot-iso-$(date +%Y%m%d.%H%M%S).0
+
+[alan@73 fixed]$ openqa-cli api -X POST isos ISO=Rocky-9.0-x86_64-boot.iso ARCH=x86_64 DISTRI=rocky FLAVOR=boot-iso VERSION=9.0 BUILD=-boot-iso-$(date +%Y%m%d.%H%M%S).0 
+{"count":4,"failed":[],"ids":[257,258,259,260],"scheduled_product_id":52}
+[alan@73 fixed]$ openqa-cli api -X POST isos ISO=Rocky-9.0-x86_64-boot.iso ARCH=x86_64 DISTRI=rocky FLAVOR=boot-iso VERSION=9.0 BUILD=-boot-iso-$(date +%Y%m%d.%H%M%S).0 GRUB="inst.repo=https://yumrepofs.build.resf.org/v1/projects/55b17281-bc54-4929-8aca-a8a11d628738/repo/BaseOS/x86_64 inst.addrepo=AppStream,https://yumrepofs.build.resf.org/v1/projects/55b17281-bc54-4929-8aca-a8a11d628738/repo/AppStream/x86_64 ip=dhcp"
+{"count":4,"failed":[],"ids":[262,263,264,265],"scheduled_product_id":53}
+[alan@73 fixed]$ 
+
+openqa-cli api -X POST isos ISO=Rocky-9.0-x86_64-boot.iso ARCH=x86_64 DISTRI=rocky FLAVOR=boot-iso VERSION=9.0 BUILD=-boot-iso-$(date +%Y%m%d.%H%M%S).0 GRUB="inst.repo=https://yumrepofs.build.resf.org/v1/projects/55b17281-bc54-4929-8aca-a8a11d628738/repo/BaseOS/x86_64 inst.addrepo=AppStream,https://yumrepofs.build.resf.org/v1/projects/55b17281-bc54-4929-8aca-a8a11d628738/repo/AppStream/x86_64 ip=dhcp"
+--------------------------------------------------------------------------------------------------------#
+pesign.x86_64                                                                                              115-1.fc36                                                                                     fedora
+pesign-test-app.x86_64                                                                                     5-26.fc34                                                                                      fedora
+[alan@73 os-autoinst-distri-rocky]$ dnf info pesign.x86_64
+Last metadata expiration check: 0:00:17 ago on Mon 13 Jun 2022 08:41:59 BST.
+Available Packages
+Name         : pesign
+Version      : 115
+Release      : 1.fc36
+Architecture : x86_64
+Size         : 167 k
+Source       : pesign-115-1.fc36.src.rpm
+Repository   : fedora
+Summary      : Signing utility for UEFI binaries
+URL          : https://github.com/rhboot/pesign
+License      : GPL-2.0-only
+Description  : This package contains the pesign utility for signing UEFI binaries as
+             : well as other associated tools.
+https://github.com/rhboot/pesign
+--------------------------------------------------------------------------------------------------------#
+:zzz:   :eyes:   
+--------------------------------------------------------------------------------------------------------#
+Last metadata expiration check: 0:00:53 ago on Wed 15 Jun 2022 11:59:51 BST.
+Installed Packages
+Name         : virt-manager
+Version      : 4.0.0
+Release      : 1.fc36
+Architecture : noarch
+Size         : 2.9 M
+Source       : virt-manager-4.0.0-1.fc36.src.rpm
+Repository   : @System
+From repo    : fedora
+Summary      : Desktop tool for managing virtual machines via libvirt
+URL          : https://virt-manager.org/
+License      : GPLv2+
+Description  : Virtual Machine Manager provides a graphical tool for administering virtual
+             : machines for KVM, Xen, and LXC. Start, stop, add or remove virtual devices,
+             : connect to a graphical or serial console, and see resource usage statistics
+             : for existing VMs on local or remote machines. Uses libvirt as the backend
+             : management API.
+[alan@73 ~]$ 
+--------------------------------------------------------------------------------------------------------#
+[alan@73 ~]$ dnf info edk2-ovmf.noarch
+Last metadata expiration check: 2:21:54 ago on Wed 15 Jun 2022 11:59:51 BST.
+Installed Packages
+Name         : edk2-ovmf
+Version      : 20220526git16779ede2d36
+Release      : 1.fc36
+Architecture : noarch
+Size         : 15 M
+Source       : edk2-20220526git16779ede2d36-1.fc36.src.rpm
+Repository   : @System
+From repo    : updates
+Summary      : UEFI firmware for x86_64 virtual machines
+URL          : http://www.tianocore.org/ovmf/
+License      : BSD-2-Clause-Patent and OpenSSL
+Description  : OVMF (Open Virtual Machine Firmware) is a project to enable UEFI support for
+             : Virtual Machines. This package contains a sample 64-bit UEFI firmware for QEMU
+             : and KVM.
+[alan@73 ~]$ 
+--------------------------------------------------------------------------------------------------------#
+VIRTQEMUD(8)	Virtualization Support									# VIRTQEMUD(8)
+NAME		virtqemud - libvirt QEMU management daemon
+SYNOPSIS	virtqemud [OPTION]...
+DESCRIPTION     The virtqemud program is a server side daemon component of the libvirt virtualization management system.
+		It is one of a collection of modular daemons that replace functionality previously provided by the monolithic libvirtd daemon.
+		This daemon runs on virtualization hosts to provide management for QEMU virtual machines.
+
+VIRTPROXYD(8)	Virtualization Support									# VIRTPROXYD(8)
+NAME		virtproxyd - libvirt proxy daemon
+SYNOPSIS	virtproxyd [OPTION]...
+DESCRIPTION	The virtproxyd program is a server side daemon component of the libvirt virtualization management system.
+		It is one of a collection of modular daemons that replace functionality previously provided by the monolithic libvirtd daemon.
+		This daemon runs on virtualization hosts and
+		• Listens on a UNIX socket to provide backwards compatibility for clients that previously connected to the libvirtd socket.
+		• Optionally listens on TCP ports for connections from off-node clients
+		Upon receiving RPC messages from a client virtproxyd will transparently forward them on to the appropriate modular daemon, and similarly relay back any asynchronous events.
+
+		The socket virtproxyd will use.
+		• $HOME/.pki/libvirt/cacert.pem
+		The TLS Certificate Authority certificate virtproxyd will use.
+		• $HOME/.pki/libvirt/servercert.pem
+		The TLS Server certificate virtproxyd will use.
+		• $HOME/.pki/libvirt/serverkey.pem
+		The TLS Server private key virtproxyd will use.
+		• $XDG_RUNTIME_DIR/libvirt/virtproxyd.pid
+		The PID file to use, unless overridden by the -p``|--pid-file`` option.
+		If $XDG_CONFIG_HOME is not set in your environment, virtproxyd will use $HOME/.config
+		If $XDG_RUNTIME_DIR is not set in your environment, virtproxyd will use $HOME/.cache
+--------------------------------------------------------------------------------------------------------#
+timezone: Europe/London
+run virt-viewer from command line
+--------------------------------------------------------------------------------------------------------#
+curl -X POST https://rpa.st/curl -F 'raw=@/some/path/some_file'						# from neil
+you can also use an alias to pipe a stdin to it with 'raw=<-' e.g.
+--------------------------------------------------------------------------------------------------------#
+Repos setup:	Eric Jorgensen
+repo --name="BaseOS"     --baseurl=http://dl.rockylinux.org/stg/rocky/9/BaseOS/x86_64/os/ --cost=100
+repo --name="AppStream"  --baseurl=http://dl.rockylinux.org/stg/rocky/9/AppStream/x86_64/os/ --cost=200 --install
+repo --name="PowerTools" --baseurl=http://dl.rockylinux.org/stg/rocky/9/BaseOS/x86_64/os/ --cost=300 --install
+  Rocky Rpi kernel repo, we need a more permanent place for this:
+repo --name="rockyrpi" --baseurl=https://dl.rockylinux.org/stg/rocky/8/rockyrpi/x86_64/os/ --cost=20
+repo --name="rockyextras" --baseurl=https://dl.rockylinux.org/stg/rocky/8/extras/x86_64/os/  --cost=20
+--------------------------------------------------------------------------------------------------------#
+<S​okel> !progress  <R​ockMonitor> 9.0 testing is in progress at #rockylinux-testing
+--------------------------------------------------------------------------------------------------------#
+# yum -y install httpd mariadb-server
+php-mysql phpInstalls the correct packages to start
+developing a LAMP application: the Apache
+webserver, the base packages for PHP, and
+a MariaDB server, including MySQL bindings
+for PHP.
+$ systemctl status httpdShow information about httpd, including
+process ID, child processes, time since
+startup, what man pages are available, the
+most recent log messages, and more.
+# systemctl start httpd mariadbStart the httpd and mariadb services. Instead
+of ‘start’, you can also use stop or restart, for
+obvious use cases.
+# systemctl enable httpd mariadbEnable the httpd and mariadb services to
+start at next boot. You can also use disable,
+mask or unmask.
+So the framework is installed and services should be running; let’s check if everything
+is ok by checking out the logs. (You must either be a member of the ‘adm’ group on the
+system, or run these commands with ‘sudo’ prepended to them to see all log messages.)
+$ journalctl -f -lShow and keep open (-f) the system log,
+allowing you to see new messages scrolling
+by. The -l flag prevents truncating of long
+lines.
+$ journalctl -f -l -u httpd -u
+mariadbSame as above, but only for log messages
+from the httpd and mariadb services.
+$ journalctl -f -l -u httpd -u
+mariadb --since -300Same as above, only for log messages that
+are less than 300 seconds (5 minutes) old
+1Now in order to test our app in the VM, we need the IP address of the server. For that
+we want to see the IP address configured for the first network card, called ‘eth0’ in most
+virtual machines:
+$ nmcli dShow the status of all network interfaces
+$ nmcli d show eth0Show details of network interface eth0;
+alternatively you can use ‘ip a s eth0’
+# nmcli d connect eth0Bring up the network interface eth0. You
+can use ‘disconnect’ to bring the interface
+down.
+Now let’s drop an example PHP file in /var/www/html to see if everything works
+$ cat << EOF > /var/www/html/test.php
+<?php
+phpinfo();
+?>
+EOF
+All text between the first line and EOF
+will be added to /var/www/html/test.php.
+Any existing content in that file will be
+overwritten. This is called a ‘heredoc’.
+Now we can download the test.php file from either the same machine, or our local
+workstation:
+$ curl http://www.someapp.org/test.php
+$ curl http://10.0.0.10/test.phpUse the ‘curl’ command to perform a
+download of the test.php file at www.
+someapp.org or 10.0.0.10, respectively
+$ curl http://localhost:80/someapp/api
+-vFetch sent and received HTTP GET status,
+API response payload from the local host
+$ curl https://localhost:443/someapp/
+api -v -F “arg1=foo” -F “arg2=bar”Fetch sent and received HTTPS POST
+status, API response payload from the local
+host
+$ host www.someapp.orgUse the ‘host’ command to test DNS name
+resolution; you might need to run ‘yum -y
+install bind-utils’ for this command to work.
+Generally, files in /var/www/html are owned by apache.In a dev environment, you might
+want to make those files owned by apache and a developer group. Here are some
+commands that are useful to make that a reality.
+# chown apache:developers test.phpChange ownership of test.php to “apache”
+and the “developers” group. (You can only
+change ownership of a file to another user
+if you are the superuser, “root”.)
+# chmod u+rw,g+rw,o+r test.phpChange the mode of test.php to allow owner
+(u) and users in the group (g) to read and
+write (+rw) it, and the rest of the world (o)
+to just read (+r) it.
+# chmod g+rw test.phpAllow users in the group of test.php to read
+and write it
+2# chown -R :developers /var/www/htmlChange ownership of /var/www/html and
+all files in that directory to the developers
+group.
+# chmod g+s /var/www/htmlSpecial command to make sure that all files
+created in /var/www/html are owned by the
+group that own /var/www/html; it sets to
+so-called sticky bit.
+Maybe you have a script that you want to use on that server, too. You’ll need to make it
+executable first:
+$ chmod 755 somescriptAllow the owner of somescript to read,
+write and execute it, and the rest of the
+world to just read and execute it.
+$ chmod +x somefileAllow execution of somefile
+Red Hat Enterprise Linux 7 ships with a security feature called SELinux. SELinux basically
+labels all files, and then whitelists what labels a program (e.g. Apache) is allowed to read.
+$ ls -lZ test.phpShow the SELinux label of test.php. Files
+in /var/www/html need to be labeled
+httpd_sys_content_t (content readable
+by Apache) or httpd_sys_rw_content_t
+(content readable and writable by Apache).
+# ausearch -sv no --comm httpdSearch the audit log for recently denied
+events triggered by Apache (‘httpd’). Useful
+for debugging an application that might be
+running into SELinux related problems.
+# restorecon -FvR /var/www/htmlUse this command to restore the default
+labels on all files under /var/www/html if
+different from those mentioned above.
+$ getenforceShow what mode SELinux is in: Disabled,
+Permissive or Enforcing. Switch SELinux to
+enforcing mode with ‘setenforce 1’.
+# semanage fcontext -l | grep '/var/
+www'View all SELinux rules that potentially apply
+to /var/www in the extensive SELinux docs.
+Install the policycoreutils-python package
+with yum to get the ‘semanage’ command.
+If you have a database on a separate server, you need to allow Apache to initiate network
+connections, which SELinux denies by default. This is done by setting an SELinux boolean.
+$ getsebool
+-a
+# setsebool httpd_can_network_connect_db 1
+Show all available SELinux boolean settings
+Tell SELinux to allow httpd to make
+connections to databases on other servers.
+Use the -P flag to make permanent.
+3The above should hopefully get you started with developing on RHEL, but you can do so
+much more! For example, here are some commands to run a program in the background in
+your shell.
+$ ./someprogram &Start someprogram in the background.
+You can also just start someprogram and
+hit CTRL-Z to suspend it and send it to the
+background.
+$ jobsShow all background jobs in current shell;
+add -l for more information on the jobs.
+$ bg [number]Continue suspended job (i.e. a job
+suspended with CTRL-Z) in the background.
+$ fg [number]Bring a background job to the foreground
+again.
+And if you need to get an idea on how your application or system is performing, you might
+like these commands
+$ freeShow the amount of free memory. Please
+note it’s not necessarily a problem if Linux
+seems to use a lot of memory!
+$ vmstat 3Every three seconds, show statistics about
+the system, like utilization, memory in use,
+etc.
+$ iotopShow ‘top’ like output for disk i/o. Must
+be root to run this. First install the iotop
+package with yum.
+$ ps xauwwShow the system process list
+Finally, maybe you want to use Java instead of PHP. These two commands install some
+programs you might want to use in that case
+# subscription-manager repos --enable
+rhel-server-rhscl-7-rpmsEnable the Software Collections
+repositories to install packages from
+(required for Maven)
+# yum -y install java-1.8.0-openjdk-
+devel tomcat maven30 gitSingle command to install your Java
+compiler, Tomcat webserver, maven and git.
+--------------------------------------------------------------------------------------------------------#
 

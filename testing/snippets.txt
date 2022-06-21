@@ -223,4 +223,367 @@ Description  : Molecule is designed to aid in the development and testing of Ans
              : understood and maintained. Molecule uses Ansible playbooks to exercise the role
              : and its associated tests. Molecule supports any provider that Ansible supports.
 -------------------------------------------------------------------------------
+  virsh --connect qemu:///session start createhdds
+INFO:createhdds:Creating image disk_rocky8.6_support_x86_64.qcow2...[12/13]
+libvirt: QEMU Driver error : Domain not found: no domain with matching name 'createhdds'
+INFO:createhdds:Install starting...
+INFO:createhdds:Connect via VNC to monitor
+
+Starting install...
+ERROR    Couldn't find kernel for install tree.
+Domain installation does not appear to have been successful.
+If it was, you can restart your domain by running:
+  virsh --connect qemu:///session start createhdds
+otherwise, please restart your installation.
+virt-install command virt-install --disk size=15,path=disk_rocky8.6_support_x86_64.qcow2.tmp --os-variant rocky8.6 -x inst.ks=file:/support.ks --initrd-inject /home/alan/git/createhdds/support.ks --location https://download.rockylinux.org/stg/rocky/8/BaseOS/x86_64/os --name createhdds --memory 3072 --noreboot --wait -1 --graphics vnc --noautoconsole --network user failed!
+[alan@78 createhdds]$ 
+-------------------------------------------------------------------------------
+# How to pull Rocky 9 source RPMs from Peridot
+
+## For binary package...
+
+```
+[vagrant@localhost vagrant]$ dnf --repofrompath=pdot-x86_64,https://yumrepofs.build.resf.org/v1/projects/55b17281-bc54-4929-8aca-a8a11d628738/repo/all/x86_64 \
+  --repo=pdot-x86_64 list chrony --available
+Added pdot-x86_64 repo from https://yumrepofs.build.resf.org/v1/projects/55b17281-bc54-4929-8aca-a8a11d628738/repo/all/x86_64
+Last metadata expiration check: 3:28:21 ago on Mon 30 May 2022 06:09:08 PM UTC.
+
+Available Packages
+chrony.x86_64                         4.1-3.el9                      pdot-x86_64
+```
+
+```
+[vagrant@localhost vagrant]$ dnf --repofrompath=pdot-x86_64,https://yumrepofs.build.resf.org/v1/projects/55b17281-bc54-4929-8aca-a8a11d628738/repo/all/x86_64 \
+  --repo=pdot-x86_64 download --urls chrony
+Added pdot-x86_64 repo from https://yumrepofs.build.resf.org/v1/projects/55b17281-bc54-4929-8aca-a8a11d628738/repo/all/x86_64
+Last metadata expiration check: 3:28:24 ago on Mon 30 May 2022 06:09:08 PM UTC.
+
+https://yumrepofs.build.resf.org/v1/projects/55b17281-bc54-4929-8aca-a8a11d628738/repo/all/x86_64/Packages/871191c3-1853-480e-abe4-a369620cc635/702d426d350d275d/chrony-4.1-3.el9.x86_64.rpm
+```
+
+```
+[vagrant@localhost vagrant]$ dnf --repofrompath=pdot-x86_64,https://yumrepofs.build.resf.org/v1/projects/55b17281-bc54-4929-8aca-a8a11d628738/repo/all/x86_64 \
+  --repo=pdot-x86_64 download chrony
+Added pdot-x86_64 repo from https://yumrepofs.build.resf.org/v1/projects/55b17281-bc54-4929-8aca-a8a11d628738/repo/all/x86_64
+Last metadata expiration check: 3:39:42 ago on Mon 30 May 2022 06:09:08 PM UTC.
+
+chrony-4.1-3.el9.x86_64.rpm                                     296 kB/s | 304 kB     00:01
+
+[vagrant@localhost vagrant]$ rpm -qip chrony-4.1-3.el9.x86_64.rpm
+warning: chrony-4.1-3.el9.x86_64.rpm: Header V4 RSA/SHA256 Signature, key ID 350d275d: NOKEY
+Name        : chrony
+Version     : 4.1
+Release     : 3.el9
+Architecture: x86_64
+Install Date: (not installed)
+Group       : Unspecified
+Size        : 608177
+License     : GPLv2
+Signature   : RSA/SHA256, Thu 26 May 2022 04:42:11 AM UTC, Key ID 702d426d350d275d
+Source RPM  : chrony-4.1-3.el9.src.rpm
+Build Date  : Thu 26 May 2022 01:52:24 AM UTC
+Build Host  : pb-58426073-6f0f-4b68-83c0-7559d3408e0a-b-x86-64
+Relocations : (not relocatable)
+Packager    : Rocky Linux Build System (Peridot) <releng@rockylinux.org>
+Vendor      : Rocky Enterprise Software Foundation
+URL         : https://chrony.tuxfamily.org
+Summary     : An NTP client/server
+Description :
+chrony is a versatile implementation of the Network Time Protocol (NTP).
+It can synchronise the system clock with NTP servers, reference clocks
+(e.g. GPS receiver), and manual input using wristwatch and keyboard. It
+can also operate as an NTPv4 (RFC 5905) server and peer to provide a time
+service to other computers in the network.
+```
+
+## For source package...
+
+```
+[vagrant@localhost vagrant]$ dnf --repofrompath=pdot-x86_64,https://yumrepofs.build.resf.org/v1/projects/55b17281-bc54-4929-8aca-a8a11d628738/repo/all/src \
+  --repo=pdot-x86_64 list chrony --available
+Added pdot-x86_64 repo from https://yumrepofs.build.resf.org/v1/projects/55b17281-bc54-4929-8aca-a8a11d628738/repo/all/src
+Last metadata expiration check: 0:10:41 ago on Mon 30 May 2022 09:30:32 PM UTC.
+Available Packages
+chrony.src                            4.1-3.el9                      pdot-x86_64
+```
+
+```
+$ dnf --repofrompath=pdot-x86_64,https://yumrepofs.build.resf.org/v1/projects/55b17281-bc54-4929-8aca-a8a11d628738/repo/all/src \
+  --repo=pdot-x86_64 info chrony --available
+Added pdot-x86_64 repo from https://yumrepofs.build.resf.org/v1/projects/55b17281-bc54-4929-8aca-a8a11d628738/repo/all/src
+Last metadata expiration check: 0:02:38 ago on Mon 30 May 2022 09:30:32 PM UTC.
+Available Packages
+Name         : chrony
+Version      : 4.1
+Release      : 3.el9
+Architecture : src
+Size         : 621 k
+Source       : None
+Repository   : pdot-x86_64
+Summary      : An NTP client/server
+URL          : https://chrony.tuxfamily.org
+License      : GPLv2
+Description  : chrony is a versatile implementation of the Network Time Protocol (NTP).
+             : It can synchronise the system clock with NTP servers, reference clocks
+             : (e.g. GPS receiver), and manual input using wristwatch and keyboard. It
+             : can also operate as an NTPv4 (RFC 5905) server and peer to provide a time
+             : service to other computers in the network.
+```
+
+How do I determine the location of the source package and download it for debranding analysis?
+
+```
+[vagrant@localhost vagrant]$ dnf --repofrompath=pdot-x86_64,https://yumrepofs.build.resf.org/v1/projects/55b17281-bc54-4929-8aca-a8a11d628738/repo/all/src \
+  --repo=pdot-x86_64 download --urls chrony
+Added pdot-x86_64 repo from https://yumrepofs.build.resf.org/v1/projects/55b17281-bc54-4929-8aca-a8a11d628738/repo/all/src
+Last metadata expiration check: 0:12:07 ago on Mon 30 May 2022 09:30:32 PM UTC.
+No package chrony available.
+Exiting due to strict setting.
+Error: No package chrony available.
+
+nazunalika: download cannot be used by itself when you are dealing with source packages, because of dnf's strict settings. you must use --source also: download cannot be used by itself when you are dealing with source packages, because of dnf's strict settings. you must use --source also
+-------------------------------------------------------------------------------
+nazunalika: 02/06/22: repoclosure: Added BaseOS repo from file:///mnt/compose/9/latest-Rocky-9/compose/BaseOS/x86_64/os
+BaseOS                                           15 MB/s | 1.6 MB     00:00    
+package: accel-config-libs-3.4.2-2.el9.i686 from BaseOS
+  unresolved deps (1):
+    accel-config(x86-32) = 3.4.2-2.el9
+package: glib-networking-2.68.3-3.el9.x86_64 from BaseOS
+  unresolved deps (1):
+    libproxy.so.1()(64bit)
+package: glibc-2.34-28.el9_0.i686 from BaseOS
+  unresolved deps (1):
+    (glibc-gconv-extra(x86-32) = 2.34-28.el9_0 if redhat-rpm-config)
+package: initscripts-10.11.4-1.el9.x86_64 from BaseOS
+  unresolved deps (1):
+    initscripts-rename-device
+package: nftables-1:0.9.8-12.el9.i686 from BaseOS
+  unresolved deps (6):
+    libnftnl.so.11
+    libnftnl.so.11(LIBNFTNL_11)
+    libnftnl.so.11(LIBNFTNL_13)
+    libnftnl.so.11(LIBNFTNL_14)
+    libnftnl.so.11(LIBNFTNL_15)
+    libnftnl.so.11(LIBNFTNL_16)
+package: pam-1.5.1-9.el9.i686 from BaseOS
+  unresolved deps (1):
+    libdb-5.3.so
+package: python3-ldb-2.4.1-1.el9.i686 from BaseOS
+  unresolved deps (1):
+    python3-tdb(x86-32) >= 1.4.4
+package: python3-samba-4.15.5-105.el9_0.i686 from BaseOS
+  unresolved deps (1):
+    python3-dns
+package: python3-samba-4.15.5-105.el9_0.x86_64 from BaseOS
+  unresolved deps (1):
+    python3-dns
+package: rpm-build-libs-4.16.1.3-12.el9_0.i686 from BaseOS
+  unresolved deps (1):
+    liblua-5.4.so
+package: rpm-libs-4.16.1.3-12.el9_0.i686 from BaseOS
+  unresolved deps (1):
+    liblua-5.4.so
+package: rpm-sign-libs-4.16.1.3-12.el9_0.i686 from BaseOS
+  unresolved deps (1):
+    liblua-5.4.so
+package: samba-client-libs-4.15.5-105.el9_0.i686 from BaseOS
+  unresolved deps (3):
+    libwbclient.so.0(WBCLIENT_0.13)
+    libwbclient.so.0(WBCLIENT_0.9)
+    libwbclient.so.0
+package: samba-libs-4.15.5-105.el9_0.i686 from BaseOS
+  unresolved deps (3):
+    libwbclient.so.0(WBCLIENT_0.13)
+    libwbclient.so.0(WBCLIENT_0.9)
+    libwbclient.so.0
+package: samba-winbind-modules-4.15.5-105.el9_0.i686 from BaseOS
+  unresolved deps (6):
+    libwbclient.so.0
+    libwbclient.so.0(WBCLIENT_0.12)
+    libwbclient.so.0(WBCLIENT_0.15)
+    libwbclient.so.0(WBCLIENT_0.9)
+    libwinbind-client-samba4.so
+    libwinbind-client-samba4.so(SAMBA_4.15.5)
+package: systemd-container-250-6.el9_0.i686 from BaseOS
+  unresolved deps (3):
+    libsystemd-shared-250.so
+    libsystemd-shared-250.so(SD_SHARED)
+    systemd(x86-32) = 250-6.el9_0
+-------------------------------------------------------------------------------
+this is an example repoclosure script made:
+#!/bin/bash
+set -o pipefail
+/usr/bin/dnf install dnf-plugins-core -y
+/usr/bin/dnf clean all
+/usr/bin/dnf repoclosure --arch=x86_64 --arch=athlon --arch=i686 --arch=i586 --arch=i486 --arch=i386 --arch=noarch --repofrompath=BaseOS,file:///mnt/compose/9/latest-Rocky-9/compose/BaseOS/x86_64/os --repo=BaseOS --check=BaseOS  | tee -a /mnt/compose/9/latest-Rocky-9/work/logs/BaseOS-repoclosure-x86_64-20220601.221136.log
+-------------------------------------------------------------------------------
+mustafa
+11:02
+
+We use Temporal to schedule workflows and activities. The ephemeral service is what is used to spawn new pods in k8s (that runs peridotbuilder). We then listen on the build task queue to start the build activity
+
+So it goes like BuildWorkflow (with params like package name) -> ProvisionWorkerWorkflow -> BuildSRPMActivity -> UploadSRPMActivity -> DestroyWorkerWorkflow (srpm build pod) -> (Loop for each arch: ProvisionWorkerWorkflow -> BuildArchActivity -> UploadArchActivity -> DestroyWorkerWorkflow)
+
+If you look into Temporal workflows and activities you'll get an idea of how the system works
+-------------------------------------------------------------------------------
+[alan@73 os-autoinst-distri-rocky_agm]$ git pull
+Updating 1443e223..2c427618
+Fast-forward
+ README.md                                                                                                                          |   7 +++++++
+ build-report.sh                                                                                                                    |   2 +-
+ main.pm                                                                                                                            |  16 ++++++++--------
+ needles/anaconda/install_destination/rocky-disk_guided_empty-anaconda_install_destination_delete_all_btn_selected-20220513.json    |  17 +++++++++++++++++
+ needles/anaconda/install_destination/rocky-disk_guided_empty-anaconda_install_destination_delete_all_btn_selected-20220513.png     | Bin 0 -> 38611 bytes
+ needles/anaconda/install_destination/rocky-disk_guided_empty-anaconda_install_destination_reclaim_space_btn_selected-20220513.json |  17 +++++++++++++++++
+ needles/anaconda/install_destination/rocky-disk_guided_empty-anaconda_install_destination_reclaim_space_btn_selected-20220513.png  | Bin 0 -> 39134 bytes
+ needles/anaconda/install_source/rocky-https_selected-20220514.json                                                                 |  17 +++++++++++++++++
+ needles/anaconda/install_source/rocky-https_selected-20220514.png                                                                  | Bin 0 -> 34087 bytes
+ needles/anaconda/main_hub/rocky-anaconda_main_hub-20220514.json                                                                    |  31 +++++++++++++++++++++++++++++++
+ needles/anaconda/main_hub/rocky-anaconda_main_hub-20220514.png                                                                     | Bin 0 -> 58830 bytes
+ needles/cockpit/rocky-autoupdate_planned_day-20220514.json                                                                         |  16 ++++++++++++++++
+ needles/cockpit/rocky-autoupdate_planned_day-20220514.png                                                                          | Bin 0 -> 48401 bytes
+ needles/cockpit/rocky-autoupdate_planned_time-20220514.json                                                                        |  16 ++++++++++++++++
+ needles/cockpit/rocky-autoupdate_planned_time-20220514.png                                                                         | Bin 0 -> 48401 bytes
+ needles/cockpit/rocky-cockpit_main-20220514.json                                                                                   |  16 ++++++++++++++++
+ needles/cockpit/rocky-cockpit_main-20220514.png                                                                                    | Bin 0 -> 77866 bytes
+ needles/cockpit/rocky-cockpit_updates_updated-cockpit-20220514.json                                                                |  16 ++++++++++++++++
+ needles/cockpit/rocky-cockpit_updates_updated-cockpit-20220514.png                                                                 | Bin 0 -> 43252 bytes
+ needles/cockpit/rocky-logs_entry-systemd-20220514.json                                                                             |  16 ++++++++++++++++
+ needles/cockpit/rocky-logs_entry-systemd-20220514.png                                                                              | Bin 0 -> 95575 bytes
+ needles/cockpit/rocky-logs_entry_detail-20220514.json                                                                              |  16 ++++++++++++++++
+ needles/cockpit/rocky-logs_entry_detail-20220514.png                                                                               | Bin 0 -> 70925 bytes
+ needles/cockpit/rocky-services_detail-20220514.json                                                                                |  16 ++++++++++++++++
+ needles/cockpit/rocky-services_detail-20220514.png                                                                                 | Bin 0 -> 68882 bytes
+ templates.fif.json                                                                                                                 |  24 ++++++++++++++----------
+ tests/disk_guided_delete_partial.pm                                                                                                |   1 +
+ tests/disk_guided_empty.pm                                                                                                         |  22 ++++++++++++++++++----
+ 28 files changed, 243 insertions(+), 23 deletions(-)
+ create mode 100644 needles/anaconda/install_destination/rocky-disk_guided_empty-anaconda_install_destination_delete_all_btn_selected-20220513.json
+ create mode 100644 needles/anaconda/install_destination/rocky-disk_guided_empty-anaconda_install_destination_delete_all_btn_selected-20220513.png
+ create mode 100644 needles/anaconda/install_destination/rocky-disk_guided_empty-anaconda_install_destination_reclaim_space_btn_selected-20220513.json
+ create mode 100644 needles/anaconda/install_destination/rocky-disk_guided_empty-anaconda_install_destination_reclaim_space_btn_selected-20220513.png
+ create mode 100644 needles/anaconda/install_source/rocky-https_selected-20220514.json
+ create mode 100644 needles/anaconda/install_source/rocky-https_selected-20220514.png
+ create mode 100644 needles/anaconda/main_hub/rocky-anaconda_main_hub-20220514.json
+ create mode 100644 needles/anaconda/main_hub/rocky-anaconda_main_hub-20220514.png
+ create mode 100644 needles/cockpit/rocky-autoupdate_planned_day-20220514.json
+ create mode 100644 needles/cockpit/rocky-autoupdate_planned_day-20220514.png
+ create mode 100644 needles/cockpit/rocky-autoupdate_planned_time-20220514.json
+ create mode 100644 needles/cockpit/rocky-autoupdate_planned_time-20220514.png
+ create mode 100644 needles/cockpit/rocky-cockpit_main-20220514.json
+ create mode 100644 needles/cockpit/rocky-cockpit_main-20220514.png
+ create mode 100644 needles/cockpit/rocky-cockpit_updates_updated-cockpit-20220514.json
+ create mode 100644 needles/cockpit/rocky-cockpit_updates_updated-cockpit-20220514.png
+ create mode 100644 needles/cockpit/rocky-logs_entry-systemd-20220514.json
+ create mode 100644 needles/cockpit/rocky-logs_entry-systemd-20220514.png
+ create mode 100644 needles/cockpit/rocky-logs_entry_detail-20220514.json
+ create mode 100644 needles/cockpit/rocky-logs_entry_detail-20220514.png
+ create mode 100644 needles/cockpit/rocky-services_detail-20220514.json
+ create mode 100644 needles/cockpit/rocky-services_detail-20220514.png
+[alan@73 os-autoinst-distri-rocky_agm]$ 
+-------------------------------------------------------------------------------
+openqa-cli api -X POST isos ISO=Rocky-8.6-x86_64-dvd1.iso ARCH=x86_64 DISTRI=rocky FLAVOR=universal VERSION=8.6 BUILD=8.6_universal_20220607.222847.0 PACKAGE_SET=minimal IDENTIFICATION=false [TEST=install_serial_console]
+-------------------------------------------------------------------------------# Tests 20220622vvvvvv
+git fetch upstream pull/104/head:pr104
+i also get # Test died: command 'egrep 'selected environment:' /tmp/anaconda.log /tmp/packaging.log | tail -1 | grep graphical-server-environment' failed at rocky/tests/_software_selection.pm line 20. for install_default
+--------------------------------------------------------------------------------------------------------#
+Testing team... if you specify inst.repo=https://yumrepofs.build.resf.org/v1/projects/55b17281-bc54-4929-8aca-a8a11d628738/repo/all/x86_64 as a kernel boot option you should be able to install any/all Software Selections directly from Peridot yumrepofs without repos on dl.rockylinux.org. There are multiple ways to do this from inside openQA.
+Note: Potentially an issue we need to figure out with BIOS install. Screen doesn't seem to scroll to expose the User Setup spoke button (ie. we can't capture a needle) but it is still selectable with correct tab/enter sequence. Most / all openQA tests expect to setup the test user. Checking behavior in UEFI mode now...
+Correction... Periodot yumrepofs will only provide the Server, Minimal and Custom Operating System options in Software Selection. In UEFI mode the User Creation spoke is right where you would expect it to be.
+sorry... my bad. Replace all with BaseOS. Here is the correct URL...
+https://yumrepofs.build.resf.org/v1/projects/55b17281-bc54-4929-8aca-a8a11d628738/repo/BaseOS/AppStream/x86_64
+openqa-cli api -X POST isos ISO=boot-x86_64.iso ARCH=x86_64 DISTRI=rocky FLAVOR=boot-iso VERSION=9.0 BUILD=-boot-iso-$(date +%Y%m%d.%H%M%S).0
+
+[alan@73 fixed]$ openqa-cli api -X POST isos ISO=Rocky-9.0-x86_64-boot.iso ARCH=x86_64 DISTRI=rocky FLAVOR=boot-iso VERSION=9.0 BUILD=-boot-iso-$(date +%Y%m%d.%H%M%S).0 
+{"count":4,"failed":[],"ids":[257,258,259,260],"scheduled_product_id":52}
+[alan@73 fixed]$ openqa-cli api -X POST isos ISO=Rocky-9.0-x86_64-boot.iso ARCH=x86_64 DISTRI=rocky FLAVOR=boot-iso VERSION=9.0 BUILD=-boot-iso-$(date +%Y%m%d.%H%M%S).0 GRUB="inst.repo=https://yumrepofs.build.resf.org/v1/projects/55b17281-bc54-4929-8aca-a8a11d628738/repo/BaseOS/x86_64 inst.addrepo=AppStream,https://yumrepofs.build.resf.org/v1/projects/55b17281-bc54-4929-8aca-a8a11d628738/repo/AppStream/x86_64 ip=dhcp"
+{"count":4,"failed":[],"ids":[262,263,264,265],"scheduled_product_id":53}
+[alan@73 fixed]$ 
+
+openqa-cli api -X POST isos ISO=Rocky-9.0-x86_64-boot.iso ARCH=x86_64 DISTRI=rocky FLAVOR=boot-iso VERSION=9.0 BUILD=-boot-iso-$(date +%Y%m%d.%H%M%S).0 GRUB="inst.repo=https://yumrepofs.build.resf.org/v1/projects/55b17281-bc54-4929-8aca-a8a11d628738/repo/BaseOS/x86_64 inst.addrepo=AppStream,https://yumrepofs.build.resf.org/v1/projects/55b17281-bc54-4929-8aca-a8a11d628738/repo/AppStream/x86_64 ip=dhcp"
+--------------------------------------------------------------------------------------------------------#
+nazunalika 02:29
+what does happen when you install rhel is there's a part about the subscription management stuff during the initial setup/first login with gnome. me, being a rational thinker here, removed subscription manager from gnome-settings-daemon like we did in 8. only problem is gnome shell 40 has the subscription manager stuff there, but you have to explicitly enable it... and that's what bit us.
+02:31 I had figured it was only in gnome settings daemon and it turns out it's there and gnome-session.
+--------------------------------------------------------------------------------------------------------#
+virt-install --disk size=15,path=disk_rocky9.0_x86_64.qcow2 --os-variant rocky9.0  --cdrom boot-x86_64.iso --name rocky9 --memory 4096 --noreboot --wait -1 --graphics vnc --noautoconsole --network user
+then at boot prompt type in:-
+inst.repo=https://yumrepofs.build.resf.org/v1/projects/55b17281-bc54-4929-8aca-a8a11d628738/repo/BaseOS/x86_64 inst.addrepo=AppStream,https://yumrepofs.build.resf.org/v1/projects/55b17281-bc54-4929-8aca-a8a11d628738/repo/AppStream/x86_64 ip=dhcp
+It's a pain but it works.
+--------------------------------------------------------------------------------------------------------#
+Fedora 36 - x86_64 - Updates                                                                                                                                                     36 kB/s |  19 kB     00:00    
+Fedora Modular 36 - x86_64 - Updates                                                                                                                                             45 kB/s |  19 kB     00:00    
+Installed Packages
+Name         : virt-viewer
+Version      : 11.0
+Release      : 2.fc36
+Architecture : x86_64
+Size         : 1.3 M
+Source       : virt-viewer-11.0-2.fc36.src.rpm
+Repository   : @System
+From repo    : fedora
+Summary      : Virtual Machine Viewer
+URL          : https://gitlab.com/virt-viewer/virt-viewer
+License      : GPLv2+
+Description  : Virtual Machine Viewer provides a graphical console client for connecting
+             : to virtual machines. It uses the GTK-VNC or SPICE-GTK widgets to provide
+             : the display, and libvirt for looking up VNC/SPICE server details.
+[alan@73 testing]$ 
+--------------------------------------------------------------------------------------------------------#
+Skip Grube
+13:47
+
+https://dl.rockylinux.org/stg/rocky/9/
+
+https://dl.rockylinux.org/stg/rocky/9/isos/x86_64/
+
+So it's clunky right now, and I'm sorry.  But here's the deal.  
+
+At the moment it's boot iso only - gotta do a network install.  We're working hard on the other ISOs with packages bundled
+Skip Grube
+13:50
+
+So you load up the boot iso, and specify staging directories and install off of that.   
+
+    https://dl.rockylinux.org/stg/rocky/9/BaseOS/x86_64/os/
+    https://dl.rockylinux.org/stg/rocky/9/AppStream/x86_64/os/
+
+Once installed, you'll have to go into /etc/yum.repos.d/rocky.repo and swap the repos to baseurl.  And swap the "pub" to "stg"
+13:52
+
+I'll write this up and link it somewhere.  But for now, go wild :stuck_out_tongue:
+--------------------------------------------------------------------------------------------------------#
+Rocky 9 Test Effort
+Rocky 9 Packages and repo structure is available for testing by the community here:
+  https://dl.rockylinux.org/stg/rocky/9/
+To do an install:
+1.  Download the boot ISO from https://dl.rockylinux.org/stg/rocky/9/isos/x86_64/
+2.  Boot it on the platform of your choice (virtual or physical)
+3.  In the installer, there is a section to specify installation sources.
+    - The main one should be BaseOS:  https://dl.rockylinux.org/stg/rocky/9/BaseOS/x86_64/os/
+    - If more than a minimal install is desired, a secondary one with AppStream should be added:  https://dl.rockylinux.org/stg/rocky/9/AppStream/x86_64/os/
+    - NOTE:  There is a known bug (also upstream) where it says the protocol you selected is "unsupported" for the type of repository
+      To get around this, simply select a different protocol from the dropdown first (like ftp://), then switch back to https://.  The problem should go away.
+4.  Install the system as normal
+5.  Once installed, the content location for DNF must be edited to point to the staging/test area:
+    - Edit /etc/dnf/vars/contentdir 
+    - It should read "pub/rocky".  Make it read "stg/rocky"
+    - You should now be able to install packages, just like in a production system
+6.  Efforts and reports are coordinated via the Testing channel (chat.rockylinux.org), which is bridged with #rockylinux-testing on libera.chat.
+    If you want to discuss findings or think you've found a bug (not present in RHEL 9), that is the place to do it!
+--------------------------------------------------------------------------------------------------------#
+lumarel
+Hm about the fixing of the broken tests, I was thinking a bit more about this, we really should define specific sets which we want to run, and then strip down our input parameters a bit more,
+so we only define ISO, ARCH, DISTRI, FLAVOR, VERSION, and BUILD but the rest should then come from the fif, then we will always run the correct stuff without injecting inconsistency and whatever :thinking_face:
+How sounds that?
+Of course this will need more discussion and might be a bit more work, but I think this will help us a lot ^^
+al bowles
+I agree. I was also thinking about whether there is a compelling reason to not allow, for example, the universal flavor to run on any of the ISOs. I've had to add the boot iso to a number of the tests I want to run and couldn't think of a good reason not to
+lumarel
+I'm more thinking about redefining the FLAVORS, so that we have new sets for boot-iso, minimal-iso and dvd-iso, where as boot might get a lot more tests now but is still the one with the least once, minimal might have a similar amount and then there are multiple flavors for dvd-iso, which explicitly define, which base env is used for all the tests + a FLAVOR for misc tests which either take a long time or aren't such a priority, and then there is also another one for all the inter-server tests, to make it easier for people with too few worker nodes or a broken communication between the workers :ok_hand_light_skin_tone:
+I will take that to the drawing board tomorrow, and graphically lay that out how I would suggest to do that, so it's easier to understand :slightly_smiling_face:
+(multiplied with the arches in the end of course)
+--------------------------------------------------------------------------------------------------------#
+[alan@73 rocky]$ virt-install --disk size=15,path=disk_rocky9.0_ws_x86_64.qcow2 --os-variant rocky9.0  --cdrom /home/alan/zr8/alan/testing/rocky/Rocky-9.0-RC1-x86_64-boot.iso --name rocky9_ws --memory 4096 --noreboot --wait -1 --graphics vnc --noautoconsole --network user
+--------------------------------------------------------------------------------------------------------#
 
